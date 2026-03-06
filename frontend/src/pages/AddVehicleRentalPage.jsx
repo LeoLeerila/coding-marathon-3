@@ -4,11 +4,12 @@ import useField from "../hooks/useField";
 
 const AddVehicleRentalPage = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
   // const user = JSON.parse(localStorage.getItem("user"));
   // const token = user ? user.token : null;
 
   const vehicleModel = useField("text");
-  const category = useField("text");
+  const [category, setCategory] = useState("Economy");
   const description = useField("text");
   // -> agency
   const name = useField("text");
@@ -19,7 +20,7 @@ const AddVehicleRentalPage = () => {
   const state = useField("text");
   // -> back to normal
   const [dailyPrice, setDailyPrice] = useState("");
-  const availabilityStatus = useField("text");
+  const [availabilityStatus, setAvailabilityStatus] = useState("available");
   const bookingDeadline = useField("date");
   const insurancePolicy = useField("text");
 
@@ -28,7 +29,7 @@ const AddVehicleRentalPage = () => {
     console.log("Form submitted");
     const newVehicle = {
       vehicleModel: vehicleModel.value,
-      category: category.value,
+      category,
       description: description.value,
       agency: {
         name: name.value,
@@ -40,21 +41,27 @@ const AddVehicleRentalPage = () => {
         state: state.value,
       },
       dailyPrice,
-      availabilityStatus: availabilityStatus.value,
+      availabilityStatus,
       bookingDeadline: bookingDeadline.value,
       insurancePolicy: insurancePolicy.value
     }
-    const res = await fetch("/api/vehicleRentals", {
-      method: "POST",
-      body: JSON.stringify(newVehicle),
-      headers: {
-        'Content-Type': 'application/json'
+    try {
+      const res = await fetch("/api/vehicleRentals", {
+        method: "POST",
+        body: JSON.stringify(newVehicle),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      if (!res.ok) {
+        console.log(res)
       }
-    })
-    if (!res.ok) {
-      console.log(res)
+      navigate("/")
+    } catch (err) {
+      setError(err.message);
     }
-    navigate("/")
+    
+    
   };
 
   return (
@@ -64,7 +71,7 @@ const AddVehicleRentalPage = () => {
         <label>Vehicle Model:</label>
         <input {...vehicleModel} />
         <label>Category:</label>
-        <select {...category}>
+        <select onChange={(e) => setCategory(e.target.value)}>
           <option value="Economy">Economy</option>
           <option value="Luxury">Luxury</option>
           <option value="SUV">SUV</option>
@@ -86,7 +93,7 @@ const AddVehicleRentalPage = () => {
         <label>Daily Price:</label>
         <input type={dailyPrice} step="0.01" min="0" onChange={(e) => setDailyPrice(e.target.value)} required />
         <label>Availability Status:</label>
-        <select {...availabilityStatus}>
+        <select onChange={(e) => setAvailabilityStatus(e.target.value)}>
           <option value="available">Available</option>
           <option value="rented">Rented</option>
           <option value="maintenance">Maintenance</option>

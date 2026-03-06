@@ -5,7 +5,7 @@ import useField from "../hooks/useField";
 const EditVehicleRentalPage = () => {
   const navigate = useNavigate();
   const vehicleModel = useField("text");
-  const category = useField("text");
+  const [category, setCategory] = useState("");
   const description = useField("text");
   // -> agency
   const name = useField("text");
@@ -16,7 +16,7 @@ const EditVehicleRentalPage = () => {
   const state = useField("text");
   // -> back to normal
   const [dailyPrice, setDailyPrice] = useState("");
-  const availabilityStatus = useField("text");
+  const [availabilityStatus, setAvailabilityStatus] = useState("");
   const bookingDeadline = useField("date");
   const insurancePolicy = useField("text");
 
@@ -39,7 +39,7 @@ const EditVehicleRentalPage = () => {
       const veh = await res.json();
       setVehicle(veh);
       vehicleModel(veh.vehicleModel);
-      category(veh.vehicleModel);
+      setCategory(veh.vehicleModel);
       description(veh.description);
       name(veh.agency.name);
       contactEmail(veh.agency.contactEmail);
@@ -47,7 +47,7 @@ const EditVehicleRentalPage = () => {
       city(veh.location.city);
       state(veh.location.state);
       setDailyPrice(veh.dailyPrice);
-      availabilityStatus(veh.availabilityStatus);
+      setAvailabilityStatus(veh.availabilityStatus);
       bookingDeadline(veh.bookingDeadline);
       insurancePolicy(veh.insurancePolicy)
 
@@ -61,7 +61,7 @@ const EditVehicleRentalPage = () => {
     e.preventDefault();
     const newVehicle = {
       vehicleModel: vehicleModel.value,
-      category: category.value,
+      category,
       description: description.value,
       agency: {
         name: name.value,
@@ -73,7 +73,7 @@ const EditVehicleRentalPage = () => {
         state: state.value,
       },
       dailyPrice,
-      availabilityStatus: availabilityStatus.value,
+      availabilityStatus,
       bookingDeadline: bookingDeadline.value,
       insurancePolicy: insurancePolicy.value
     }
@@ -101,7 +101,7 @@ const EditVehicleRentalPage = () => {
             <label>Vehicle Model:</label>
             <input {...vehicleModel} />
             <label>Change category:</label>
-            <select {...category}>
+            <select onChange={(e) => setCategory(e.target.value)}>
               <option value="Economy">Economy</option>
               <option value="Luxury">Luxury</option>
               <option value="SUV">SUV</option>
@@ -123,7 +123,7 @@ const EditVehicleRentalPage = () => {
             <label>New daily Price:</label>
             <input type={dailyPrice} step="0.01" min="0" onChange={(e) => setDailyPrice(e.target.value)} required />
             <label>Change availability status:</label>
-            <select {...availabilityStatus}>
+            <select onChange={(e) => setAvailabilityStatus(e.target.value)}>
               <option value="available">Available</option>
               <option value="rented">Rented</option>
               <option value="maintenance">Maintenance</option>
