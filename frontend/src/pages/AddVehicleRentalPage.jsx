@@ -30,11 +30,15 @@ const AddVehicleRentalPage = () => {
       vehicleModel: vehicleModel.value,
       category: category.value,
       description: description.value,
-      name: name.value,
-      contactEmail: contactEmail.value,
-      fleetSize,
-      city: city.value,
-      state: state.value,
+      agency: {
+        name: name.value,
+        contactEmail: contactEmail.value,
+        fleetSize,
+      },
+      location: {
+        city: city.value,
+        state: state.value,
+      },
       dailyPrice,
       availabilityStatus: availabilityStatus.value,
       bookingDeadline: bookingDeadline.value,
@@ -74,7 +78,7 @@ const AddVehicleRentalPage = () => {
         <label>Agency Email:</label>
         <input {...contactEmail} required />
         <label>Fleet Size:</label>
-        <input type={fleetSize} min="0" onChange={(e) => setFleetSize(e.target.value)}/>
+        <input type={fleetSize} min="0" onChange={(e) => setFleetSize(e.target.value)} />
         <label>City:</label>
         <input {...city} required />
         <label>State:</label>
