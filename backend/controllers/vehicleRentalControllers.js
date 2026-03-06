@@ -17,18 +17,18 @@ const createVehicleRental = async (req, res) => {
     const newVehicle = await VehicleRental.create({...req.body})
     res.status(201).json(newVehicle);
   }catch(err){
-    res.status(400).json({message: "Failed to create rental vehicle", error: err.message});
+    res.status(500).json({message: "Failed to create rental vehicle", error: err.message});
   }
 };
 
 // GET /api/vehicleRentals/:vehicleRentalId
 const getVehicleRentalById = async (req, res) => {
-  const {vehicleId} = req.params;
-  if (!mongoose.Types.ObjectId.isValid(vehicleId)) {
+  const {vehicleRentalId} = req.params;
+  if (!mongoose.Types.ObjectId.isValid(vehicleRentalId)) {
       return res.status(404).json({ message: "Invalid vehicle ID" });
   }
   try {
-    const vehicle = await VehicleRental.findById(vehicleId)
+    const vehicle = await VehicleRental.findById(vehicleRentalId)
     if(vehicle){
       res.status(200).json(vehicle)
     }else{
@@ -41,13 +41,13 @@ const getVehicleRentalById = async (req, res) => {
 
 // PUT /api/vehicleRentals/:vehicleRentalId
 const updateVehicleRental = async (req, res) => {
-  const {vehicleId} = req.params
-  if (!mongoose.Types.ObjectId.isValid(vehicleId)) {
+  const {vehicleRentalId} = req.params
+  if (!mongoose.Types.ObjectId.isValid(vehicleRentalId)) {
       return res.status(404).json({ message: "Invalid vehicle ID" });
   }
   try {
     const updVehicle = await VehicleRental.findOneAndReplace(
-      {_id: vehicleId},
+      {_id: vehicleRentalId},
       {...req.body},
       {new:true}
     );
@@ -63,12 +63,12 @@ const updateVehicleRental = async (req, res) => {
 
 // DELETE /api/vehicleRentals/:vehicleRentalId
 const deleteVehicleRental = async (req, res) => {
-  const {vehicleId} = req.parmas;
-  if (!mongoose.Types.ObjectId.isValid(vehicleId)) {
+  const {vehicleRentalId} = req.parmas;
+  if (!mongoose.Types.ObjectId.isValid(vehicleRentalId)) {
       return res.status(404).json({ message: "Invalid vehicle ID" });
   }
   try {
-    const delVehicle = await VehicleRental.findByIdAndDelete({_id:vehicleId})
+    const delVehicle = await VehicleRental.findByIdAndDelete({_id:vehicleRentalId})
     if(delVehicle){
       res.status(204).send()
     }else{
