@@ -25,8 +25,8 @@ const App = () => {
             <Route path="/edit/:id" element={<EditVehicleRentalPage isAuthenticated={isAuthenticated}/>} />
             <Route path="/vehicle/:id" element={<VehicleRentalPage isAuthenticated={isAuthenticated}/>} />
             <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/login" element={<Login isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}/>} />
+            <Route path="*" element={<NotFoundPage isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}/>} />
           </Routes>
         </div>
       </BrowserRouter>
