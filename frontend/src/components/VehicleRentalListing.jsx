@@ -1,10 +1,10 @@
-const VehicleRentalListing = () => {
+const VehicleRentalListing = ({rentals}) => {
   return (
     <div className="rental-preview">
-      <h2>Vehicle Model</h2>
-      <p>Category: Economy</p>
-      <p>Daily Price: $0.00</p>
-      <p>Status: Available</p>
+      <h2>Vehicle Model: {rentals.model}</h2>
+      <p>Category: {rentals.category}</p>
+      <p>Daily Price: ${rentals.dailyPrice.toFixed(2)}</p>
+      <p>Status: {rentals.availabilityStatus}</p>
     </div>
   );
 };
