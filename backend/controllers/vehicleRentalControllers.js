@@ -46,6 +46,10 @@ const updateVehicleRental = async (req, res) => {
       return res.status(404).json({ message: "Invalid vehicle ID" });
   }
   try {
+    if(!req.body.vehicleModel || !req.body.category || !req.body.description || !req.body.agency.name || !req.body.agency.contactEmail || !req.body.agency.fleetSize || !req.body.location.city || !req.body.location.state || req.body.dailyPrice === null || !req.body.availabilityStatus || !req.body.bookingDeadline || !req.body.insurancePolicy){
+      console.log(!req.body.vehicleModel, !req.body.category, !req.body.description, !req.body.agency.name, !req.body.agency.contactEmail, !req.body.agency.fleetSize, !req.body.location.city, !req.body.location.state, req.body.dailyPrice === null, !req.body.availabilityStatus, !req.body.bookingDeadline, !req.body.insurancePolicy)
+      throw err
+    }
     const updVehicle = await VehicleRental.findOneAndReplace(
       {_id: vehicleRentalId},
       {...req.body},
