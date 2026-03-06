@@ -24,7 +24,7 @@ const App = () => {
             <Route path="/add-rental" element={<AddVehicleRentalPage isAuthneticated={isAuthenticated} />} />
             <Route path="/edit/:id" element={<EditVehicleRentalPage isAuthenticated={isAuthenticated}/>} />
             <Route path="/vehicle/:id" element={<VehicleRentalPage isAuthenticated={isAuthenticated}/>} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<Register isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />} />
             <Route path="/login" element={<Login isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}/>} />
             <Route path="*" element={<NotFoundPage isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated}/>} />
           </Routes>

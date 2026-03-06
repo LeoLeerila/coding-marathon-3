@@ -20,7 +20,7 @@ const Register = ({ setIsAuthenticated }) => {
     const registerUser = async (e) => {
         e.preventDefault();
         const user = await register({
-            fullname: name.value,
+            name: name.value,
             username: username.value,
             password: password.value,
             phone_number: phone_number.value,
