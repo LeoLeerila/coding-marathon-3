@@ -5,8 +5,8 @@ import useField from "../hooks/useField";
 const AddVehicleRentalPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
-  // const user = JSON.parse(localStorage.getItem("user"));
-  // const token = user ? user.token : null;
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user ? user.token : null;
 
   const vehicleModel = useField("text");
   const [category, setCategory] = useState("Economy");
@@ -50,7 +50,8 @@ const AddVehicleRentalPage = () => {
         method: "POST",
         body: JSON.stringify(newVehicle),
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         }
       })
       if (!res.ok) {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
-const VehicleRentalPage = () => {
+const VehicleRentalPage = ({ isAuthenticated }) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -9,6 +9,8 @@ const VehicleRentalPage = () => {
   const [rentals, setRentals] = useState(null);
   const navigate = useNavigate();
   const { id } = params;
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user ? user.token : null;
 
 
   useEffect(() => {
@@ -31,6 +33,7 @@ const VehicleRentalPage = () => {
   const deleteRental = async (id) => {
     const response = await fetch(`/api/vehicleRentals/${id}`, {
       method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` }
     });
 
     if (!response.ok) {
@@ -63,8 +66,12 @@ const VehicleRentalPage = () => {
           <p>{rentals.availabilityStatus}</p>
           <p>{rentals.bookingDeadline}</p>
           <button onClick={() => navigate("/")}>back</button>
-          <button onClick={() => deleteRental(rentals._id)}>Delete</button>
-          <button onClick={() => navigate(`/edit/${rentals._id}`)}>Edit</button>
+          {isAuthenticated && (
+            <>
+              <button onClick={() => deleteRental(rentals._id)}>Delete</button>
+              <button onClick={() => navigate(`/edit/${rentals._id}`)}>Edit</button>
+            </>
+          )}
         </>
       )}
     </div>

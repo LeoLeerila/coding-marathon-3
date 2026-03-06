@@ -81,7 +81,10 @@ const EditVehicleRentalPage = () => {
     const res = await fetch(`/api/vehicleRentals/${id}`, {
       method: "PUT",
       body: JSON.stringify(newVehicle),
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
     })
     if (!res.ok) {
       console.log(response)
