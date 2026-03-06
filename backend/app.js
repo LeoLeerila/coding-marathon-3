@@ -11,12 +11,15 @@ app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
 
-// Routes
+
 app.use('/api/vehicleRentals', vehicleRentalRouter);
 app.use("/api/auth", userRouter);
-
+app.use(express.static('view')); // Serve static files from 'view'
 // Error handling
-app.use(unknownEndpoint);
+app.use('/api', unknownEndpoint);
 app.use(errorHandler);
-
+app.use((req, res) => {
+  res.sendFile(__dirname + '/view/index.html');
+});
+// Routes
 module.exports = app;
