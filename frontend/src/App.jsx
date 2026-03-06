@@ -8,6 +8,8 @@ import Navbar from "./components/Navbar";
 import VehicleRentalPage from "./pages/VehicleRentalPage";
 import EditVehicleRentalPage from "./pages/EditVehicleRentalPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {const user = JSON.parse(localStorage.getItem("user"))
@@ -22,6 +24,8 @@ const App = () => {
             <Route path="/add-rental" element={<AddVehicleRentalPage isAuthneticated={isAuthenticated} />} />
             <Route path="/edit/:id" element={<EditVehicleRentalPage isAuthenticated={isAuthenticated}/>} />
             <Route path="/vehicle/:id" element={<VehicleRentalPage isAuthenticated={isAuthenticated}/>} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
