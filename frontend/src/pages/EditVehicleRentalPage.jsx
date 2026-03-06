@@ -23,8 +23,8 @@ const EditVehicleRentalPage = () => {
   const [error, setError] = useState(null);
   const [vehicle, setVehicle] = useState(null);
   const { id } = useParams();
-  // const user = JSON.parse(localStorage.getItem("user"));
-  // const token = user ? user.token : null;
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user ? user.token : null;
 
   useEffect(() => {
     const getVeh = async () => {

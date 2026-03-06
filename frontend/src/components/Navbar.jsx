@@ -22,8 +22,8 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
         )}
         {!isAuthenticated && (
           <>
-            <Link to="/register"></Link>
-            <Link to="/login"></Link>
+            <Link to="/register">Register in</Link>
+            <Link to="/login">Log in</Link>
           </>
         )}
       </div>
