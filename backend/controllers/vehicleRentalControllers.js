@@ -63,7 +63,7 @@ const updateVehicleRental = async (req, res) => {
 
 // DELETE /api/vehicleRentals/:vehicleRentalId
 const deleteVehicleRental = async (req, res) => {
-  const {vehicleRentalId} = req.parmas;
+  const {vehicleRentalId} = req.params;
   if (!mongoose.Types.ObjectId.isValid(vehicleRentalId)) {
       return res.status(404).json({ message: "Invalid vehicle ID" });
   }
