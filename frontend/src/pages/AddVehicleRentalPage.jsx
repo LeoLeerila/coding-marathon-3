@@ -21,7 +21,7 @@ const AddVehicleRentalPage = () => {
   // -> back to normal
   const [dailyPrice, setDailyPrice] = useState("");
   const [availabilityStatus, setAvailabilityStatus] = useState("available");
-  const bookingDeadline = useField("date");
+  const [bookingDeadline, setBookingDeadline] = useState("");
   const insurancePolicy = useField("text");
 
   const submitForm = async (e) => {
@@ -42,7 +42,7 @@ const AddVehicleRentalPage = () => {
       },
       dailyPrice,
       availabilityStatus,
-      bookingDeadline: bookingDeadline.value,
+      bookingDeadline,
       insurancePolicy: insurancePolicy.value
     }
     try {
@@ -99,7 +99,7 @@ const AddVehicleRentalPage = () => {
           <option value="maintenance">Maintenance</option>
         </select>
         <label>Booking Deadline:</label>
-        <input {...bookingDeadline} />
+        <input type="date" value={bookingDeadline} onChange={(e) => setBookingDeadline(e.target.value)} />
         <label>Insurance Policy:</label>
         <input {...insurancePolicy} required />
         <button>Add Vehicle Rental</button>

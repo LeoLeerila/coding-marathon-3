@@ -1,24 +1,23 @@
 import { useState, useEffect, use } from "react";
-import { useNavigate } from "react-router-dom";
-import useField from "../hooks/useField";
+import { useNavigate, useParams } from "react-router-dom";
 
 const EditVehicleRentalPage = () => {
   const navigate = useNavigate();
-  const vehicleModel = useField("text");
+  const [vehicleModel, setVehicleModel] = useState("");
   const [category, setCategory] = useState("");
-  const description = useField("text");
+  const [description, setDescription] = useState("");
   // -> agency
-  const name = useField("text");
-  const contactEmail = useField("email");
+  const [name, setName] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
   const [fleetSize, setFleetSize] = useState(""); //does not use useField as I didn't know how to implement it handling numbers (and restrictions like minvalue and step).
   // -> location
-  const city = useField("text");
-  const state = useField("text");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
   // -> back to normal
   const [dailyPrice, setDailyPrice] = useState("");
   const [availabilityStatus, setAvailabilityStatus] = useState("");
-  const bookingDeadline = useField("date");
-  const insurancePolicy = useField("text");
+  const [bookingDeadline, setBookingDeadline] = useState("");
+  const [insurancePolicy, setInsurancePolicy] = useState("");
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -37,22 +36,24 @@ const EditVehicleRentalPage = () => {
       }
 
       const veh = await res.json();
+      console.log(veh)
+      console.log(veh.vehicleModel)
       setVehicle(veh);
-      vehicleModel(veh.vehicleModel);
-      setCategory(veh.vehicleModel);
-      description(veh.description);
-      name(veh.agency.name);
-      contactEmail(veh.agency.contactEmail);
+      setVehicleModel(veh.vehicleModel);
+      setCategory(veh.category);
+      setDescription(veh.description);
+      setName(veh.agency.name);
+      setContactEmail(veh.agency.contactEmail);
       setFleetSize(veh.agency.fleetSize);
-      city(veh.location.city);
-      state(veh.location.state);
+      setCity(veh.location.city);
+      setState(veh.location.state);
       setDailyPrice(veh.dailyPrice);
       setAvailabilityStatus(veh.availabilityStatus);
-      bookingDeadline(veh.bookingDeadline);
-      insurancePolicy(veh.insurancePolicy)
+      const actualDate = new Date(veh.bookingDeadline);
+      setBookingDeadline(actualDate);
+      setInsurancePolicy(veh.insurancePolicy)
 
       setLoading(false);
-      setError(false);
     }
     getVeh();
   }, [id]);
@@ -60,22 +61,22 @@ const EditVehicleRentalPage = () => {
   const submitForm = async (e) => {
     e.preventDefault();
     const newVehicle = {
-      vehicleModel: vehicleModel.value,
+      vehicleModel,
       category,
-      description: description.value,
+      description,
       agency: {
-        name: name.value,
-        contactEmail: contactEmail.value,
+        name,
+        contactEmail,
         fleetSize,
       },
       location: {
-        city: city.value,
-        state: state.value,
+        city,
+        state,
       },
       dailyPrice,
       availabilityStatus,
-      bookingDeadline: bookingDeadline.value,
-      insurancePolicy: insurancePolicy.value
+      bookingDeadline,
+      insurancePolicy
     }
     const res = await fetch(`/api/vehicleRentals/${id}`, {
       method: "PUT",
@@ -99,7 +100,7 @@ const EditVehicleRentalPage = () => {
           <h2>Edit vehicle details</h2>
           <form onSubmit={submitForm}>
             <label>Vehicle Model:</label>
-            <input {...vehicleModel} />
+            <input type="text" value={vehicleModel} onChange={(e) => setVehicleModel(e.target.value)} />
             <label>Change category:</label>
             <select onChange={(e) => setCategory(e.target.value)}>
               <option value="Economy">Economy</option>
@@ -109,19 +110,19 @@ const EditVehicleRentalPage = () => {
               <option value="Truck">Truck</option>
             </select>
             <label>Edit description:</label>
-            <textarea {...description} required></textarea>
+            <textarea type="text" value={description} onChange={(e) => setDescription(e.target.value)} required></textarea>
             <label>Agency Name:</label>
-            <input {...name} required />
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
             <label>Agency Email:</label>
-            <input {...contactEmail} required />
+            <input type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} required />
             <label>Fleet Size:</label>
-            <input type={fleetSize} min="0" onChange={(e) => setFleetSize(e.target.value)} />
+            <input type="number" min="0" value={fleetSize} onChange={(e) => setFleetSize(e.target.value)} />
             <label>City:</label>
-            <input {...city} required />
+            <input type="text" value={city} onChange={(e) => setCity(e.target.value)} required />
             <label>State:</label>
-            <input {...state} required />
+            <input type="text" value={state} onChange={(e) => setState(e.target.value)} required />
             <label>New daily Price:</label>
-            <input type={dailyPrice} step="0.01" min="0" onChange={(e) => setDailyPrice(e.target.value)} required />
+            <input type="number" step="0.01" min="0" value={dailyPrice} onChange={(e) => setDailyPrice(e.target.value)} required />
             <label>Change availability status:</label>
             <select onChange={(e) => setAvailabilityStatus(e.target.value)}>
               <option value="available">Available</option>
@@ -129,9 +130,9 @@ const EditVehicleRentalPage = () => {
               <option value="maintenance">Maintenance</option>
             </select>
             <label>Change booking deadline:</label>
-            <input {...bookingDeadline} />
+            <input type="date" value={bookingDeadline} onChange={(e) => setBookingDeadline(e.target.value)} />
             <label>Change insurance policy:</label>
-            <input {...insurancePolicy} required />
+            <input type="text" value={insurancePolicy} onChange={(e) => setVehicle(e.target.value)} required />
             <button>Update Vehicle Rental</button>
           </form>
         </>

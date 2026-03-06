@@ -1,9 +1,9 @@
 import VehicleRentalListing from "./VehicleRentalListing";
 
-const VehicleRentalListings = ({rentals}) => {
+const VehicleRentalListings = ({ rentals }) => {
   return (
     <div className="rental-list">
-      {rentals && rentals.map((e)=> <VehicleRentalListing key={e._id} rentals={e}/>)}
+      {rentals.map((rental) => <VehicleRentalListing key={rental._id} rentals={rental}/>)}
     </div>
   );
 };
